@@ -8,7 +8,8 @@ export class urlShortnarService {
         this.urlRepository = new UrlRepository();
     }
 
-    async shortenUrl(originalUrl: string): Promise<string> {
+    async shortenUrl(originalUrl?: string): Promise<string> {
+        if (!originalUrl) return "";
         let url = await this.urlRepository.getUrlByOriginalUrl(originalUrl);
 
         if (url) {
@@ -24,7 +25,7 @@ export class urlShortnarService {
             url = await this.urlRepository.getUrlByShortUrl(shortUrl);
         }
 
-        await this.urlRepository.createUrl(originalUrl, shortUrl);
+        await this.urlRepository.createUrl(originalUrl, `urls/${shortUrl}`);
         return shortUrl;
     }
 
